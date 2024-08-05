@@ -1,0 +1,47 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Specify your desired Python version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint code
+        run: |
+          pip install pylint
+          pylint your_script.py  # Replace with your main script or a list of scripts
+
+      - name: Run basic checks
+        run: |
+          python -c "import pandas; print(pandas.__version__)"
+          # Add other basic checks if needed
+
+      - name: Upload artifacts
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: data-cleaner-app
+          path: |
+            ./*.py
+            ./requirements.txt
+            # Include other files you want to upload
