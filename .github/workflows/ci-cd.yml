@@ -39,10 +39,6 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install  # Adjust if you have a specific package manager or need other setup
 
-      - name: Run tests
-        run: |
-          # Add commands to run your tests here
-          echo "Run your tests here"
 
       - name: Upload artifacts
         if: success()
